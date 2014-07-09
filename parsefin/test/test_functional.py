@@ -4,6 +4,10 @@
 # See util/generate-tests.py
 #======================================
 
+# Copyright (c) Matt Haggard.
+# See LICENSE for details.
+
+
 from twisted.trial.unittest import TestCase
 from parsefin.test.util import testFile
 
