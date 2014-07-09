@@ -4,17 +4,26 @@
 import lxml.etree
 import lxml.html
 
+import re
+
 
 class OFXTransactionParser(object):
     """
     I parse OFX files for transaction data.
     """
 
+    r_intu = re.compile('(?=<(INTU\..*?)>(.*?)<)', re.I | re.S | re.M)
+
+
     def parseFile(self, fh):
         """
         Parse an OFX file for transaction data.
         """
+        # We do this because we're gonna use regex later anyway.
+        guts = fh.read()
+        fh.seek(0)
         root = lxml.html.parse(fh).getroot()
+
         ret = {}
 
         # header stuff
@@ -23,11 +32,15 @@ class OFXTransactionParser(object):
             'org': fi.xpath('//org[1]')[0].text.strip(),
             'fid': fi.xpath('//fid[1]')[0].text.strip(),
         }
-        intus = root.xpath('//intu')
-        ret['user'] = {
-            'bid': intus[0].text.strip(),
-            'userid': intus[1].text.strip(),
-        }
+
+        # Because OFX is an awesome XML-compatible (not compatible) format,
+        # we resort to regex for these fields containing dots in their names.
+        ret['intu'] = {}
+        intus = self.r_intu.findall(guts)
+        for (name, value) in intus:
+            name = name.split('.')[1].lower()
+            value = value.strip()
+            ret['intu'][name] = value
 
         # accounts
         statements = root.xpath('//stmtrs')
