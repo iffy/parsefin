@@ -1,6 +1,5 @@
 language: python
 python:
-    - "2.6"
     - "2.7"
 
 install:
@@ -11,5 +10,5 @@ before_script:
     - make
 
 script:
-    - trial parsefin
+    - tox
     - pyflakes parsefin setup.py util
