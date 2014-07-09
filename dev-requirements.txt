@@ -1,3 +1,6 @@
+Jinja2==2.7.1
+MarkupSafe==0.18
+Twisted==13.1.0
 py==1.4.20
 tox==1.7.1
 virtualenv==1.11.6
