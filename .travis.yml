@@ -11,5 +11,5 @@ before_script:
     - make
 
 script:
-    - tox
-    - pyflakes parsefin
+    - trial parsefin
+    - pyflakes parsefin setup.py util
