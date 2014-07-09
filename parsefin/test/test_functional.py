@@ -11,14 +11,14 @@ from parsefin.test.util import testFile
 class TestFiles(TestCase):
 
 
-    def test_1(self):
+    def test_1_input_ofx(self):
         """
         data/1.input.ofx -> data/1.output.json
         """
         testFile(self, 'data/1.input.ofx', 'data/1.output.json')
 
 
-    def test_2(self):
+    def test_2_input_qfx(self):
         """
         data/2.input.qfx -> data/2.output.json
         """

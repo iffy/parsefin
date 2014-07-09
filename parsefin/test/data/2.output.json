@@ -1,0 +1,34 @@
+{
+  "fi": {
+    "org": "SOMEBANK",
+    "fid": "1111"
+  },
+  "user": {
+    "bid": "22222",
+    "userid": "3333333"
+  },
+  "accounts": [
+    {
+      "bankid": "444",
+      "account_id": "555",
+      "account_type": "SAVINGS",
+      "currency": "USD",
+      "balance": "2014.26",
+      "balance_date": "20140709211714.904",
+      "available_balance": "1989.26",
+      "available_balance_date": "20140709211714.904",
+      "transaction_start": "20140601060000.000",
+      "transaction_end": "20140709060000.000",
+      "transactions": [
+        {
+          "type": "CREDIT",
+          "posted": "20140630120000.000",
+          "amount": "0.17",
+          "id": "0000737",
+          "memo": "DIVIDEND EARNED FOR PERIOD OF 06/01/2014 THROUGH 06/30/2014 ANNUAL PERCENTAGE YIELD EARNED IS 0.10%",
+          "name": "DIVIDEND EARNED FOR PERIOD OF 06"
+        }
+      ]
+    }
+  ]
+}

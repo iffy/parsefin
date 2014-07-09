@@ -31,6 +31,7 @@ class TestFiles(TestCase):
 '''
 
 def methodName(name):
+    name = name.replace('.','_').replace('-','_')
     return r_methsafe.sub('', name)
 
 def relativePath(root, path):
