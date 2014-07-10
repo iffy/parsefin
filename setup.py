@@ -6,10 +6,11 @@ from pip.req import parse_requirements
 
 import os, re
 
+root_dir = os.path.dirname(os.path.abspath(__file__))
 
 def getVersion():
     r_version = re.compile(r'__version__\s*=\s*"(.*?)"')
-    version_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'parsefin/version.py')
+    version_file = os.path.join(root_dir, 'parsefin/version.py')
     guts = open(version_file, 'r').read()
     m = r_version.search(guts)
     if not m:
@@ -18,7 +19,8 @@ def getVersion():
 
 
 def parseRequirements():
-    reqs = parse_requirements('requirements.txt')
+    req_file = os.path.join(root_dir, 'requirements.txt')
+    reqs = parse_requirements(req_file)
     packages = []
     links = []
     for req in reqs:
