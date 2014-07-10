@@ -54,3 +54,4 @@ docs/_build/
 
 MANIFEST
 _trial_temp/
+*.sublime-*
