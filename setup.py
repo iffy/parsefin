@@ -1,7 +1,7 @@
 # Copyright (c) Matt Haggard.
 # See LICENSE for details.
 
-from distutils.core import setup
+from setuptools import setup
 from pip.req import parse_requirements
 
 import os, re
