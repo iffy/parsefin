@@ -1,0 +1,41 @@
+{
+  "accounts": [
+    {
+      "currency": "USD",
+      "bankid": "380448282",
+      "account_id": "8047867-S29",
+      "account_type": "CHECKING",
+      "balance": "1094.64",
+      "balance_date": "99960759232321",
+      "available_balance": "1094.64",
+      "available_balance_date": "99960759232321",
+      "transaction_start": "56766505725469",
+      "transaction_end": "03661542961631",
+      "transactions": [
+        {
+          "type": "DEBIT",
+          "posted": "03661542961631",
+          "amount": "-2379.38",
+          "id": "4778",
+          "memo": "BOB'S SHRIMP SHACK & TACKLE",
+          "name": "BOB'S SHRIMP SHACK"
+        },
+        {
+          "type": "DEBIT",
+          "posted": "03661542961631",
+          "amount": "-2384.05",
+          "id": "2819",
+          "name": "TO SHARES 6047867S17"
+        },
+        {
+          "type": "CREDIT",
+          "posted": "44607074105329",
+          "amount": "1781.22",
+          "id": "5136",
+          "name": "MAYFLOWER ORGANICS",
+          "memo": "MAYFLOWER ORGANICS ETC"
+        }
+      ]
+    }
+  ]
+}

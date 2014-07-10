@@ -52,6 +52,8 @@ def generateTestFile(input_dir, output_filename, relative_root):
     inputs = [relativePath(relative_root, x) for x in sorted(root.globChildren('*.input*'))]
     names = [methodName(FilePath(x).basename()) for x in inputs]
     outputs = [relativePath(relative_root, x) for x in sorted(root.globChildren('*.output*'))]
+    if len(inputs) != len(outputs):
+        raise Exception("Inputs: %s, Outputs: %s" % (len(inputs),len(outputs)))
     test_cases = zip(inputs, outputs, names)
 
     print 'test_cases', test_cases

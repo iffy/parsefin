@@ -14,6 +14,41 @@ class OFXTransactionParser(object):
 
     r_intu = re.compile('(?=<(INTU\..*?)>(.*?)<)', re.I | re.S | re.M)
 
+    _ACCOUNT_MAP = {
+        'currency': './/curdef[1]',
+        'bankid': './/bankid[1]',
+        'account_id': './/acctid[1]',
+        'account_type': './/accttype[1]',
+        'balance': './/ledgerbal//balamt[1]',
+        'balance_date': './/ledgerbal//dtasof[1]',
+        'available_balance': './/availbal//balamt[1]',
+        'available_balance_date': './/availbal//dtasof[1]',
+        'transaction_start': './/dtstart[1]',
+        'transaction_end': './/dtend[1]',
+    }
+
+    _TRANS_MAP = {
+        'type': './/trntype[1]',
+        'posted': './/dtposted[1]',
+        'amount': './/trnamt[1]',
+        'id': './/fitid[1]',
+        'memo': './/memo[1]',
+        'name': './/name[1]',
+    }
+
+    def _getXPaths(self, root, mapping):
+        """
+        Get a dictionary of the text of the given xpaths.
+        """
+        # Consider combining these xpaths with | if it's faster than looping
+        # through the mapping dict.
+        ret = {}
+        for attr,xpath in mapping.items():
+            node = root.xpath(xpath)
+            if node:
+                ret[attr] = node[0].text.strip()
+        return ret
+
 
     def parseFile(self, fh):
         """
@@ -27,48 +62,33 @@ class OFXTransactionParser(object):
         ret = {}
 
         # header stuff
-        fi = root.xpath('//fi[1]')[0]
-        ret['fi'] = {
-            'org': fi.xpath('//org[1]')[0].text.strip(),
-            'fid': fi.xpath('//fid[1]')[0].text.strip(),
-        }
+        fi = root.xpath('//fi[1]')
+        if fi:
+            fi = fi[0]
+            ret['fi'] = {
+                'org': fi.xpath('.//org[1]')[0].text.strip(),
+                'fid': fi.xpath('.//fid[1]')[0].text.strip(),
+            }
 
         # Because OFX is an awesome XML-compatible (not compatible) format,
         # we resort to regex for these fields containing dots in their names.
-        ret['intu'] = {}
         intus = self.r_intu.findall(guts)
-        for (name, value) in intus:
-            name = name.split('.')[1].lower()
-            value = value.strip()
-            ret['intu'][name] = value
+        if intus:
+            ret['intu'] = {}
+            for (name, value) in intus:
+                name = name.split('.')[1].lower()
+                value = value.strip()
+                ret['intu'][name] = value
 
         # accounts
-        statements = root.xpath('//stmtrs')
+        statements = root.xpath('.//stmtrs')
         accounts = ret['accounts'] = []
         for statement in statements:
-            account = {
-                'currency': statement.xpath('//curdef[1]')[0].text.strip(),
-                'bankid': statement.xpath('//bankid[1]')[0].text.strip(),
-                'account_id': statement.xpath('//acctid[1]')[0].text.strip(),
-                'account_type': statement.xpath('//accttype[1]')[0].text.strip(),
-                'balance': statement.xpath('//ledgerbal//balamt[1]')[0].text.strip(),
-                'balance_date': statement.xpath('//ledgerbal//dtasof[1]')[0].text.strip(),
-                'available_balance': statement.xpath('//availbal//balamt[1]')[0].text.strip(),
-                'available_balance_date': statement.xpath('//availbal//dtasof[1]')[0].text.strip(),
-                'transaction_start': statement.xpath('//dtstart[1]')[0].text.strip(),
-                'transaction_end': statement.xpath('//dtend[1]')[0].text.strip(),
-            }
+            account = self._getXPaths(statement, self._ACCOUNT_MAP)
             transactions = account['transactions'] = []
-            translist = statement.xpath('//banktranlist[1]//stmttrn')
+            translist = statement.xpath('.//banktranlist[1]//stmttrn')
             for trans in translist:
-                transaction = {
-                    'type': trans.xpath('//trntype[1]')[0].text.strip(),
-                    'posted': trans.xpath('//dtposted[1]')[0].text.strip(),
-                    'amount': trans.xpath('//trnamt[1]')[0].text.strip(),
-                    'id': trans.xpath('//fitid[1]')[0].text.strip(),
-                    'memo': trans.xpath('//memo[1]')[0].text.strip(),
-                    'name': trans.xpath('//name[1]')[0].text.strip(),
-                }
+                transaction = self._getXPaths(trans, self._TRANS_MAP)
                 transactions.append(transaction)
             accounts.append(account)
         return ret

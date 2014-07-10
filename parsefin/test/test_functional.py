@@ -35,3 +35,10 @@ class TestFiles(TestCase):
         """
         testFile(self, 'data/3.input.ofx', 'data/3.output.json')
 
+
+    def test_4_input_ofx(self):
+        """
+        data/4.input.ofx -> data/4.output.json
+        """
+        testFile(self, 'data/4.input.ofx', 'data/4.output.json')
+
