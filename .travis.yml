@@ -1,14 +1,16 @@
 language: python
-python:
-    - "2.7"
+python: 2.7
+
+env:
+    - TOX_ENV=pyflakes
+    - TOX_ENV=py26
+    - TOX_ENV=py27
+    - TOX_ENV=pypy
 
 install:
     - pip install -r dev-requirements.txt
-    - pip install -r requirements.txt
 
 before_script:
     - make
 
-script:
-    - tox
-    - pyflakes parsefin setup.py util
+script: tox -e $TOX_ENV
