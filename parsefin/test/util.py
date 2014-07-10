@@ -5,6 +5,7 @@ import json
 
 from twisted.python.filepath import FilePath
 from parsefin import parseFile
+from parsefin.general import toJson
 from parsefin.error import Error
 
 
@@ -29,11 +30,11 @@ def testFile(testcase, input_filename, output_filename):
     if first_line == 'ERROR':
         testcase.assertRaises(Error, parseFile, i_fh)
     else:
-        expected = json.loads(expected_raw)
-        actual = parseFile(i_fh)
+        expected = json.loads(toJson(json.loads(expected_raw)))
+        actual = json.loads(toJson(parseFile(i_fh)))
         testcase.assertEqual(expected, actual,
             "Expected output\n%s\n\nactual:\n%s\n" % (
-                json.dumps(expected, indent=2),
-                json.dumps(actual, indent=2),
+                toJson(expected, indent=2),
+                toJson(actual, indent=2),
             ))
 
