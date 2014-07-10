@@ -6,7 +6,51 @@ import lxml.html
 
 import re
 
+from datetime import datetime, timedelta
+
 from parsefin.error import MissingData
+
+
+r_ofx_timestamp = re.compile(r'''
+    (?P<year>\d{4})
+    (?P<month>\d{2})
+    (?P<day>\d{2})
+    (?:
+        (?P<hour>\d{2})
+        (?P<minute>\d{2})
+        (?P<second>\d{2})
+    )?
+    (?:
+        \.
+        (?P<millisecond>\d\d\d)
+    )?
+    (?:
+        \[
+            (?P<offset>.*?)
+            :
+            .*?
+        \]
+    )?
+    ''', re.I | re.X)
+
+def timestamp(ofx_timestamp):
+    """
+    Convert an OFX timestamp into a Python C{datetime}.
+    """
+    m = r_ofx_timestamp.match(ofx_timestamp)
+    parts = m.groupdict()
+    offset = timedelta(hours=-int(parts['offset'] or 0))
+    microsecond = int(parts['millisecond'] or 0) * 1000
+    return datetime(
+        int(parts['year']),
+        int(parts['month']),
+        int(parts['day']),
+        int(parts['hour'] or 0),
+        int(parts['minute'] or 0),
+        int(parts['second'] or 0),
+        microsecond,
+    ) + offset
+
 
 
 class OFXTransactionParser(object):
@@ -14,33 +58,31 @@ class OFXTransactionParser(object):
     I parse OFX files for transaction data.
     """
 
-    r_intu = re.compile('(?=<(INTU\..*?)>(.*?)<)', re.I | re.S | re.M)
-
     _ACCOUNT_MAP = {
-        'currency': './/curdef[1]',
-        'bankid': './/bankid[1]',
-        'account_id': './/acctid[1]',
-        'account_type': './/accttype[1]',
-        'balance': './/ledgerbal//balamt[1]',
-        'balance_date': './/ledgerbal//dtasof[1]',
-        'available_balance': './/availbal//balamt[1]',
-        'available_balance_date': './/availbal//dtasof[1]',
-        'transaction_start': './/dtstart[1]',
-        'transaction_end': './/dtend[1]',
+        'currency': ('.//curdef[1]', unicode),
+        'bankid': ('.//bankid[1]', unicode),
+        'account_id': ('.//acctid[1]', unicode),
+        'account_type': ('.//accttype[1]', unicode),
+        'balance': ('.//ledgerbal//balamt[1]', unicode),
+        'balance_date': ('.//ledgerbal//dtasof[1]', timestamp),
+        'available_balance': ('.//availbal//balamt[1]', unicode),
+        'available_balance_date': ('.//availbal//dtasof[1]', timestamp),
+        'transaction_start': ('.//dtstart[1]', timestamp),
+        'transaction_end': ('.//dtend[1]', timestamp),
     }
 
     _TRANS_MAP = {
-        'type': './/trntype[1]',
-        'posted': './/dtposted[1]',
-        'amount': './/trnamt[1]',
-        'id': './/fitid[1]',
-        'memo': './/memo[1]',
-        'name': './/name[1]',
+        'type': ('.//trntype[1]', unicode),
+        'posted': ('.//dtposted[1]', timestamp),
+        'amount': ('.//trnamt[1]', unicode),
+        'id': ('.//fitid[1]', unicode),
+        'memo': ('.//memo[1]', unicode),
+        'name': ('.//name[1]', unicode),
     }
 
     _FI_MAP = {
-        'org': './/org[1]',
-        'fid': './/fid[1]',
+        'org': ('.//org[1]', unicode),
+        'fid': ('.//fid[1]', unicode),
     }
 
     def _getXPaths(self, root, mapping, required=None):
@@ -53,13 +95,20 @@ class OFXTransactionParser(object):
         # Consider combining these xpaths with | if it's faster than looping
         # through the mapping dict.
         ret = {}
-        for attr,xpath in mapping.items():
+        for attr,(xpath,cast) in mapping.items():
             node = root.xpath(xpath)
             if node:
-                ret[attr] = node[0].text.strip()
+                ret[attr] = cast(node[0].text.strip())
             elif attr in required:
                 raise MissingData("Missing required field %s" % (attr,))
         return ret
+
+
+    def parseTimestamp(self, tstamp):
+        """
+        Turn an OFX timestamp into a Python C{datetime}.
+        """
+
 
 
     def parseFile(self, fh):
