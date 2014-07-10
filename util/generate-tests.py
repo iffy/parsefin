@@ -49,9 +49,9 @@ def relativePath(root, path):
 def generateTestFile(input_dir, output_filename, relative_root):
     root = FilePath(input_dir)
     relative_root = FilePath(relative_root)
-    inputs = [relativePath(relative_root, x) for x in root.globChildren('*.input*')]
+    inputs = [relativePath(relative_root, x) for x in sorted(root.globChildren('*.input*'))]
     names = [methodName(FilePath(x).basename()) for x in inputs]
-    outputs = [relativePath(relative_root, x) for x in root.globChildren('*.output*')]
+    outputs = [relativePath(relative_root, x) for x in sorted(root.globChildren('*.output*'))]
     test_cases = zip(inputs, outputs, names)
 
     print 'test_cases', test_cases
