@@ -6,6 +6,8 @@ import lxml.html
 
 import re
 
+from parsefin.error import MissingData
+
 
 class OFXTransactionParser(object):
     """
@@ -36,10 +38,18 @@ class OFXTransactionParser(object):
         'name': './/name[1]',
     }
 
-    def _getXPaths(self, root, mapping):
+    _FI_MAP = {
+        'org': './/org[1]',
+        'fid': './/fid[1]',
+    }
+
+    def _getXPaths(self, root, mapping, required=None):
         """
         Get a dictionary of the text of the given xpaths.
+
+        @param required: List of required keys.
         """
+        required = set(required or [])
         # Consider combining these xpaths with | if it's faster than looping
         # through the mapping dict.
         ret = {}
@@ -47,6 +57,8 @@ class OFXTransactionParser(object):
             node = root.xpath(xpath)
             if node:
                 ret[attr] = node[0].text.strip()
+            elif attr in required:
+                raise MissingData("Missing required field %s" % (attr,))
         return ret
 
 
@@ -54,31 +66,18 @@ class OFXTransactionParser(object):
         """
         Parse an OFX file for transaction data.
         """
-        # We do this because we're gonna use regex later anyway.
-        guts = fh.read()
-        fh.seek(0)
         root = lxml.html.parse(fh).getroot()
+
+        # is it even OFX or something similar?
+        if not root.xpath('//ofx[1]'):
+            raise MissingData("Not a recognized OFX file")
 
         ret = {}
 
         # header stuff
         fi = root.xpath('//fi[1]')
         if fi:
-            fi = fi[0]
-            ret['fi'] = {
-                'org': fi.xpath('.//org[1]')[0].text.strip(),
-                'fid': fi.xpath('.//fid[1]')[0].text.strip(),
-            }
-
-        # Because OFX is an awesome XML-compatible (not compatible) format,
-        # we resort to regex for these fields containing dots in their names.
-        intus = self.r_intu.findall(guts)
-        if intus:
-            ret['intu'] = {}
-            for (name, value) in intus:
-                name = name.split('.')[1].lower()
-                value = value.strip()
-                ret['intu'][name] = value
+            ret['fi'] = self._getXPaths(fi[0], self._FI_MAP)  
 
         # accounts
         statements = root.xpath('.//stmtrs')

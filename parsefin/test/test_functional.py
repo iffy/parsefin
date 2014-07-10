@@ -42,3 +42,10 @@ class TestFiles(TestCase):
         """
         testFile(self, 'data/4.input.ofx', 'data/4.output.json')
 
+
+    def test_5_input_garbage(self):
+        """
+        data/5.input.garbage -> data/5.output
+        """
+        testFile(self, 'data/5.input.garbage', 'data/5.output')
+

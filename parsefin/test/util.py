@@ -5,6 +5,7 @@ import json
 
 from twisted.python.filepath import FilePath
 from parsefin import parseFile
+from parsefin.error import Error
 
 
 root = FilePath(__file__).parent()
@@ -16,16 +17,23 @@ def testFile(testcase, input_filename, output_filename):
 
     @param testcase: A C{TestCase} instance.
     @param input_filename: Name of file with financial data in it.
-    @param output_filename: Name of file with expected JSON output in it.
+    @param output_filename: Name of file with expected JSON output in it.  If
+        the file has C{ERROR} as the first line, then an error is expected.
     """
     input_filename = root.preauthChild(input_filename).path
     output_filename = root.preauthChild(output_filename).path
     i_fh = open(input_filename, 'rb')
-    expected = json.load(open(output_filename, 'rb'))
-    actual = parseFile(i_fh)
-    testcase.assertEqual(expected, actual,
-        "Expected output\n%s\n\nactual:\n%s\n" % (
-            json.dumps(expected, indent=2),
-            json.dumps(actual, indent=2),
-        ))
+    
+    expected_raw = open(output_filename, 'rb').read()
+    first_line = expected_raw.split('\n', 1)[0]
+    if first_line == 'ERROR':
+        testcase.assertRaises(Error, parseFile, i_fh)
+    else:
+        expected = json.loads(expected_raw)
+        actual = parseFile(i_fh)
+        testcase.assertEqual(expected, actual,
+            "Expected output\n%s\n\nactual:\n%s\n" % (
+                json.dumps(expected, indent=2),
+                json.dumps(actual, indent=2),
+            ))
 

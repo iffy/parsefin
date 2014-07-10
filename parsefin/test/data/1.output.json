@@ -3,10 +3,6 @@
     "org": "SOMEORG",
     "fid": "1111"
   },
-  "intu": {
-    "bid": "22222",
-    "userid": "3333333"
-  },
   "accounts": [
     {
       "bankid": "444",
