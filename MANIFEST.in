@@ -4,4 +4,3 @@ include requirements.txt
 include dev-requirements.txt
 include tox.ini
 include Makefile
-include bin/parsefin
