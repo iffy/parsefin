@@ -3,7 +3,7 @@
 # See LICENSE for details.
 
 import sys
-import json
 from parsefin import parseFile
+from parsefin.general import toJson
 fh = open(sys.argv[1], 'rb')
-sys.stdout.write(json.dumps(parseFile(fh), indent=2) + '\n')
+sys.stdout.write(toJson(parseFile(fh), indent=2) + '\n')
