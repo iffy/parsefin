@@ -1,7 +1,7 @@
 # Copyright (c) Matt Haggard.
 # See LICENSE for details.
 
-from setuptools import setup
+from setuptools import setup, find_packages
 from pip.req import parse_requirements
 
 import os, re
@@ -40,11 +40,9 @@ setup(
     author_email='haggardii@gmail.com',
     name='parsefin',
     version=getVersion(),
-    packages=[
-        'parsefin', 'parsefin.test',
-    ],
+    packages=find_packages(),
     scripts=[
-        'bin/parsefin',
+        'scripts/parsefin',
     ],
     install_requires=install_requires,
     dependency_links=dependency_links,

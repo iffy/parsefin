@@ -1,0 +1,9 @@
+#!/usr/bin/env python
+# Copyright (c) Matt Haggard.
+# See LICENSE for details.
+
+import sys
+import json
+from parsefin import parseFile
+fh = open(sys.argv[1], 'rb')
+sys.stdout.write(json.dumps(parseFile(fh), indent=2) + '\n')
