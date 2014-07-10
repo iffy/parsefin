@@ -11,6 +11,6 @@ install:
     - pip install -r dev-requirements.txt
 
 before_script:
-    - make
+    - make generate
 
 script: tox -e $TOX_ENV
