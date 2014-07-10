@@ -3,4 +3,4 @@
 parsefin
 ========
 
-Tools for parsing OFX/QFX/OFC/csv financial files.
+Tools for parsing OFX/QFX/csv financial files.
