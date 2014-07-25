@@ -104,13 +104,6 @@ class OFXTransactionParser(object):
         return ret
 
 
-    def parseTimestamp(self, tstamp):
-        """
-        Turn an OFX timestamp into a Python C{datetime}.
-        """
-
-
-
     def parseFile(self, fh):
         """
         Parse an OFX file for transaction data.
@@ -130,9 +123,19 @@ class OFXTransactionParser(object):
 
         # accounts
         statements = root.xpath('.//stmtrs')
+        is_creditcard = False
+
+        # credit cards
+        if not statements:
+            statements = root.xpath('.//ccstmtrs')
+            if statements:
+                is_creditcard = True
+
         accounts = ret['accounts'] = []
         for statement in statements:
             account = self._getXPaths(statement, self._ACCOUNT_MAP)
+            if is_creditcard:
+                account['account_type'] = 'creditcard'
             transactions = account['transactions'] = []
             translist = statement.xpath('.//banktranlist[1]//stmttrn')
             for trans in translist:

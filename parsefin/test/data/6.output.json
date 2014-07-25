@@ -1,0 +1,37 @@
+{
+  "fi": {
+    "org": "C1",
+    "fid": "1111"
+  },
+  "accounts": [
+    {
+      "account_id": "3333444455556666",
+      "account_type": "creditcard",
+      "currency": "USD",
+      "balance": "-126.87",
+      "balance_date": "2014-07-25T21:24:12.843000",
+      "available_balance": "9804.27",
+      "available_balance_date": "2014-07-25T21:24:12.843000",
+      "transaction_start": "2014-07-01T17:00:00",
+      "transaction_end": "2014-07-25T17:00:00",
+      "transactions": [
+        {
+          "type": "DEBIT",
+          "posted": "2014-07-21T17:00:00",
+          "amount": "-7.50",
+          "id": "201407231227166",
+          "memo": "0054: THANKSGIVING POINT INSTIT LEHI UT 84043 US",
+          "name": "THANKSGIVING POINT INSTIT LEHI U"
+        },
+        {
+          "type": "DEBIT",
+          "posted": "2014-07-22T17:00:00",
+          "amount": "-1.93",
+          "id": "201407231227176",
+          "memo": "0054: KFC/AW #524 PROVO UT 84604 US",
+          "name": "KFC/AW #524 PROVO UT 84604 US"
+        }
+      ]
+    }
+  ]
+}
