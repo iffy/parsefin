@@ -1,0 +1,31 @@
+{
+  "accounts": [
+    {
+      "account_id": "4444333322221111",
+      "account_type": "creditcard",
+      "currency": "USD",
+      "balance": "-2632.34",
+      "balance_date": "2015-03-01T12:00:00",
+      "available_balance": "16365.73",
+      "available_balance_date": "2015-03-01T12:00:00",
+      "transaction_start": "2015-03-01T12:00:00",
+      "transaction_end": "2015-03-01T12:00:00",
+      "transactions": [
+        {
+          "type": "DEBIT",
+          "posted": "2015-02-20T12:00:00",
+          "amount": "-32.00",
+          "id": "1111111111",
+          "name": "Race Registration"
+        },
+        {
+          "type": "DEBIT",
+          "posted": "2015-02-17T12:00:00",
+          "amount": "-5.00",
+          "id": "2222222222",
+          "name": "PUBLIX #1336"
+        }
+      ]
+    }
+  ]
+}
