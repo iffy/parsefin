@@ -119,7 +119,7 @@ class OFXTransactionParser(object):
         # header stuff
         fi = root.xpath('//fi[1]')
         if fi:
-            ret['fi'] = self._getXPaths(fi[0], self._FI_MAP)  
+            ret['fi'] = self._getXPaths(fi[0], self._FI_MAP)
 
         # accounts
         statements = root.xpath('.//stmtrs')

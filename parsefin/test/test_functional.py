@@ -56,3 +56,17 @@ class TestFiles(TestCase):
         """
         testFile(self, 'data/6.input.capitalone.ofx', 'data/6.output.json')
 
+
+    def test_7_input_chase_ofx(self):
+        """
+        data/7.input.chase.ofx -> data/7.output.json
+        """
+        testFile(self, 'data/7.input.chase.ofx', 'data/7.output.json')
+
+
+    def test_8_input_chase_qfx(self):
+        """
+        data/8.input.chase.qfx -> data/8.output.json
+        """
+        testFile(self, 'data/8.input.chase.qfx', 'data/8.output.json')
+
