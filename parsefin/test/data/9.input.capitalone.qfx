@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<?OFX OFXHEADER="200" VERSION="202" SECURITY="NONE" OLDFILEUID="NONE" NEWFILEUID="NONE"?>
+<OFX>
+    <SIGNONMSGSRSV1>
+        <SONRS>
+            <STATUS>
+                <CODE>0</CODE>
+                <SEVERITY>INFO</SEVERITY>
+            </STATUS>
+            <DTSERVER>20151105202343.825</DTSERVER>
+            <LANGUAGE>ENG</LANGUAGE>
+            <DTPROFUP>20151105202343.825</DTPROFUP>
+            <FI>
+                <ORG>C1</ORG>
+                <FID>1001</FID>
+            </FI>
+            <INTU.BID>1234</INTU.BID>
+        </SONRS>
+    </SIGNONMSGSRSV1>
+    <CREDITCARDMSGSRSV1>
+        <CCSTMTTRNRS>
+            <TRNUID>0</TRNUID>
+            <STATUS>
+                <CODE>0</CODE>
+                <SEVERITY>INFO</SEVERITY>
+            </STATUS>
+            <CCSTMTRS>
+                <CURDEF>USD</CURDEF>
+                <CCACCTFROM>
+                    <ACCTID>1000</ACCTID>
+                </CCACCTFROM>
+                <BANKTRANLIST>
+                    <DTSTART>20150901040000.000</DTSTART>
+                    <DTEND>20151031040000.000</DTEND>
+                    <STMTTRN>
+                        <TRNTYPE>CREDIT</TRNTYPE>
+                        <DTPOSTED>20150911040000.000</DTPOSTED>
+                        <DTUSER>20150909040000.000</DTUSER>
+                        <TRNAMT>35.0</TRNAMT>
+                        <FITID>20150911940390</FITID>
+                        <NAME>THE HOME DEPOT 4407</NAME>
+                        <CCACCTTO>
+                            <ACCTID>1000</ACCTID>
+                        </CCACCTTO>
+                        <MEMO>THE HOME DEPOT 4407</MEMO>
+                    </STMTTRN>
+                    <STMTTRN>
+                        <TRNTYPE>DEBIT</TRNTYPE>
+                        <DTPOSTED>20150909040000.000</DTPOSTED>
+                        <DTUSER>20150908040000.000</DTUSER>
+                        <TRNAMT>-12.0</TRNAMT>
+                        <FITID>20150909917157</FITID>
+                        <NAME>SQ *DON RASMUSSENS FRUITS</NAME>
+                        <CCACCTTO>
+                            <ACCTID>1000</ACCTID>
+                        </CCACCTTO>
+                        <MEMO>SQ *DON RASMUSSENS FRUITS</MEMO>
+                    </STMTTRN>
+                </BANKTRANLIST>
+                <LEDGERBAL>
+                    <BALAMT>-1030.03</BALAMT>
+                    <DTASOF>20151105202343.827</DTASOF>
+                </LEDGERBAL>
+                <AVAILBAL>
+                    <BALAMT>8942.57</BALAMT>
+                    <DTASOF>20151105202343.827</DTASOF>
+                </AVAILBAL>
+            </CCSTMTRS>
+        </CCSTMTTRNRS>
+    </CREDITCARDMSGSRSV1>
+</OFX>

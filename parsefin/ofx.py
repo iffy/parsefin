@@ -51,6 +51,15 @@ def timestamp(ofx_timestamp):
         microsecond,
     ) + offset
 
+def currencyamount(x):
+    """
+    Convert an amount to a currency string.
+    """
+    parts = str(x).split('.')
+    if len(parts) == 1:
+        return u'{0}.00'.format(parts[0])
+    dollars, cents = parts
+    return '{0}.{1:02}'.format(long(dollars), long(cents))
 
 
 class OFXTransactionParser(object):
@@ -63,9 +72,9 @@ class OFXTransactionParser(object):
         'bankid': ('.//bankid[1]', unicode),
         'account_id': ('.//acctid[1]', unicode),
         'account_type': ('.//accttype[1]', unicode),
-        'balance': ('.//ledgerbal//balamt[1]', unicode),
+        'balance': ('.//ledgerbal//balamt[1]', currencyamount),
         'balance_date': ('.//ledgerbal//dtasof[1]', timestamp),
-        'available_balance': ('.//availbal//balamt[1]', unicode),
+        'available_balance': ('.//availbal//balamt[1]', currencyamount),
         'available_balance_date': ('.//availbal//dtasof[1]', timestamp),
         'transaction_start': ('.//dtstart[1]', timestamp),
         'transaction_end': ('.//dtend[1]', timestamp),
@@ -74,7 +83,7 @@ class OFXTransactionParser(object):
     _TRANS_MAP = {
         'type': ('.//trntype[1]', unicode),
         'posted': ('.//dtposted[1]', timestamp),
-        'amount': ('.//trnamt[1]', unicode),
+        'amount': ('.//trnamt[1]', currencyamount),
         'id': ('.//fitid[1]', unicode),
         'memo': ('.//memo[1]', unicode),
         'name': ('.//name[1]', unicode),

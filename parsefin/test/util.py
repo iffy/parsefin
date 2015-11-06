@@ -32,7 +32,7 @@ def testFile(testcase, input_filename, output_filename):
     else:
         expected = json.loads(toJson(json.loads(expected_raw)))
         actual = json.loads(toJson(parseFile(i_fh)))
-        testcase.assertEqual(expected, actual,
+        testcase.assertEqual(toJson(expected, indent=2), toJson(actual, indent=2),
             "Expected output\n%s\n\nactual:\n%s\n" % (
                 toJson(expected, indent=2),
                 toJson(actual, indent=2),
