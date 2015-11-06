@@ -7,7 +7,7 @@ from twisted.python.filepath import FilePath
 from parsefin import parseFile
 from parsefin.general import toJson
 from parsefin.error import Error
-
+import difflib
 
 root = FilePath(__file__).parent()
 
@@ -32,9 +32,11 @@ def testFile(testcase, input_filename, output_filename):
     else:
         expected = json.loads(toJson(json.loads(expected_raw)))
         actual = json.loads(toJson(parseFile(i_fh)))
-        testcase.assertEqual(toJson(expected, indent=2), toJson(actual, indent=2),
-            "Expected output\n%s\n\nactual:\n%s\n" % (
-                toJson(expected, indent=2),
-                toJson(actual, indent=2),
-            ))
+        diff = difflib.unified_diff(
+            [x+'\n' for x in json.dumps(expected, indent=2, sort_keys=True).split('\n')],
+            [x+'\n' for x in json.dumps(actual, indent=2, sort_keys=True).split('\n')],
+            )
+        diff = list(diff)
+        testcase.assertEqual(expected, actual,
+            "Diff: %s" % (''.join(diff)))
 

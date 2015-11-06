@@ -59,7 +59,8 @@ def currencyamount(x):
     if len(parts) == 1:
         return u'{0}.00'.format(parts[0])
     dollars, cents = parts
-    return '{0}.{1:02}'.format(long(dollars), long(cents))
+    cents = (str(cents) + '0')[:2]
+    return '{0}.{1}'.format(dollars, cents)
 
 
 class OFXTransactionParser(object):
