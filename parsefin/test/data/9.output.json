@@ -1,0 +1,37 @@
+{
+  "fi": {
+    "org": "C1",
+    "fid": "1001"
+  },
+  "accounts": [
+    {
+      "account_id": "1000",
+      "account_type": "creditcard",
+      "currency": "USD",
+      "balance": "-1030.03",
+      "balance_date": "2015-11-05T20:23:43.827000",
+      "available_balance": "8942.57",
+      "available_balance_date": "2015-11-05T20:23:43.827000",
+      "transaction_start": "2015-09-01T04:00:00",
+      "transaction_end": "2015-10-31T04:00:00",
+      "transactions": [
+        {
+          "type": "CREDIT",
+          "posted": "2015-09-11T04:00:00",
+          "amount": "35.50",
+          "id": "20150911940390",
+          "name": "THE HOME DEPOT 4407",
+          "memo": "THE HOME DEPOT 4407"
+        },
+        {
+          "type": "DEBIT",
+          "posted": "2015-09-09T04:00:00",
+          "amount": "-12.00",
+          "id": "20150909917157",
+          "name": "SQ *DON RASMUSSENS FRUITS",
+          "memo": "SQ *DON RASMUSSENS FRUITS"
+        }
+      ]
+    }
+  ]
+}

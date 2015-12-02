@@ -70,3 +70,10 @@ class TestFiles(TestCase):
         """
         testFile(self, 'data/8.input.chase.qfx', 'data/8.output.json')
 
+
+    def test_9_input_capitalone_qfx(self):
+        """
+        data/9.input.capitalone.qfx -> data/9.output.json
+        """
+        testFile(self, 'data/9.input.capitalone.qfx', 'data/9.output.json')
+
